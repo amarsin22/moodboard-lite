@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
@@ -16,20 +16,40 @@ export default function App() {
         <Navbar />
 
         <Routes>
+          {/* Default route should go to login */}
+          <Route path="/" element={<Navigate to="/login" replace />} />
+
+          {/* Public Routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
 
-          <Route path="/" element={
-            <ProtectedRoute><Today /></ProtectedRoute>
-          }/>
+          {/* Protected Routes */}
+          <Route
+            path="/today"
+            element={
+              <ProtectedRoute>
+                <Today />
+              </ProtectedRoute>
+            }
+          />
 
-          <Route path="/create" element={
-            <ProtectedRoute><CreateMood /></ProtectedRoute>
-          }/>
+          <Route
+            path="/create"
+            element={
+              <ProtectedRoute>
+                <CreateMood />
+              </ProtectedRoute>
+            }
+          />
 
-          <Route path="/timeline" element={
-            <ProtectedRoute><Timeline /></ProtectedRoute>
-          }/>
+          <Route
+            path="/timeline"
+            element={
+              <ProtectedRoute>
+                <Timeline />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
